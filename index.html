@@ -37,8 +37,8 @@
         }
         $("#myForm").submit(function (e) {
           e.preventDefault();
-          var title = $("#title").val();
-          var rating = $("#rating").val();
+          let title = $("#title").val();
+          let rating = $("#rating").val();
           if (title.length < 2 || rating < 0 || rating > 10) {
             alert(
               "Invalid input. Title must have at least 2 characters and rating must be between 0 and 10."
