@@ -1,11 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Movies APP</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <h1>Movies APP</h1>
+    <form id="myForm">
+      <input type="text" id="title" placeholder="MOVIE TITLE" required /><br>
+      <input type="number" id="rating" placeholder="MOVIE RATING" required /><br>
+      <input type="submit" value="SUBMIT" />
+    </form>
+    <button id="sortTitle">Sort by Title</button>
+    <button id="sortRating">Sort by Rating</button>
+    <div id="movieList"></div>
+
+    <script>
+      $(function () {
+        let movies = [];
+        function displayMovies() {
+          $("#movieList").empty();
+          movies.forEach(function (movie, index) {
+            let movieDiv = $("<div>").text(
+              "Title: " + movie.title + ", Rating: " + movie.rating
+            );
+            let removeButton = $("<button>").text("Remove");
+            removeButton.click(function () {
+              movies.splice(index, 1);
+              displayMovies();
+            });
+            movieDiv.append(removeButton);
+            $("#movieList").append(movieDiv);
+          });
+        }
+        $("#myForm").submit(function (e) {
+          e.preventDefault();
+          var title = $("#title").val();
+          var rating = $("#rating").val();
+          if (title.length < 2 || rating < 0 || rating > 10) {
+            alert(
+              "Invalid input. Title must have at least 2 characters and rating must be between 0 and 10."
+            );
+            return;
+          }
+          movies.push({ title: title, rating: rating });
+          displayMovies();
+          $("#title").val("");
+          $("#rating").val("");
+        });
+
+        $("#sortTitle").click(function () {
+          movies.sort(function (a, b) {
+            return a.title.localeCompare(b.title);
+          });
+          displayMovies();
+        });
+
+        $("#sortRating").click(function () {
+          movies.sort(function (a, b) {
+            return a.rating - b.rating;
+          });
+          displayMovies();
+        });
+      });
+    </script>
+  </body>
 </html>
